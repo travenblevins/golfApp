@@ -18,6 +18,8 @@ body {
     align-items: center;
 }
 
+
+
 .row {
     display: flex;
     justify-content: center;
@@ -44,4 +46,22 @@ body {
 
 .course-item {
     border: 1px solid lightgray;
+}
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin:20px 0 0 0;
+}
+
+.table-container table {
+    width: 60%;
+    table-layout: fixed;
+}
+
+.table-container th, .table-container td {
+    border: 1px solid black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
