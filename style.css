@@ -51,6 +51,8 @@ body {
 
 .table-container {
     display: flex;
+    flex-direction:column;
+    align-items: center;
     justify-content: center;
     margin:20px 0 0 0;
 }
@@ -65,4 +67,9 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.name {
+    display:flex;
+    justify-content: start;
 }

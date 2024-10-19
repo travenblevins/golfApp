@@ -61,6 +61,7 @@ selectCourseButton.addEventListener('click', async () => {
 const playerButton = document.getElementById('playerButton');
 const playerInput = document.getElementById('playerInput');
 const tableBody = document.getElementById('tableBody');
+const name = document.getElementById('name');
 
 playerButton.addEventListener('click', () => {
     if(document.querySelector('.course-item') === null) {
@@ -68,16 +69,6 @@ playerButton.addEventListener('click', () => {
     } else if (playerInput.value === '') {
         alert('Please enter a player name');
     } else {
-        const player = playerInput.value;
-        const newRow = document.createElement('tr')
-        const heading = document.createElement('th')
-        heading.textContent = player;
-        newRow.appendChild(heading);
-        for(let i = 0; i < 10; i++) {
-            const newCell = document.createElement('td');
-            newCell.classList.add('John' + i + 1);
-            newRow.appendChild(newCell);
-        }
-        tableBody.appendChild(newRow);
+        name.textContent = playerInput.value;
     }
 })
