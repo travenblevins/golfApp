@@ -47,72 +47,7 @@ function handleButtonClick(courseId) {
         } else {
             const button = courseItem.querySelector('button');
             button.remove(); // Remove button from selected course item
-            let currentId = courseId;
             console.log(courseItem.dataset.id); // Log the selected course ID
-            console.log(currentId.toString()); // Store the selected course ID
-            DisplayTeeBox(currentId); // Call DisplayTeeBox after a course is selected
-        }
-    });
-}
-
-async function getCourseDetails(currentID) {
-    const url = `https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/courses/${currentID}.json`;
-    console.log('Fetching course details from URL:', url); // Log the URL for debugging
-    const response = await fetch(url);
-
-    if (!response.ok) {
-        const errorText = await response.text(); // Get the response text for error handling
-        throw new Error(`Network response failed: ${response.status} - ${errorText}`);
-    }
-
-    // Check if the response is JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Response is not valid JSON');
-    }
-
-    try {
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('Error parsing JSON:', error);
-        throw new Error('Error parsing JSON response');
-    }
-}
-
-async function DisplayTeeBox(ID) {
-    try {
-        const teeBox = await getCourseDetails(ID);
-        let teeBoxHtml = '';
-        teeBox.forEach((tee) => {
-            teeBoxHtml += `
-            <div class="tee-item" data-id="${tee.id}">
-                <span>${tee.tee}</span>
-                <button id="tee-button-${tee.id}">Select</button>
-            </div>`;
-        });
-        const courseDetails = document.getElementById('courseDetails');
-        courseDetails.innerHTML = teeBoxHtml;
-
-        // Add event listeners to the newly created tee buttons
-        teeBox.forEach((tee) => {
-            const button = document.getElementById(`tee-button-${tee.id}`);
-            button.addEventListener('click', () => handleTeeButtonClick(tee.id)); // Ensure the correct ID is used
-        });
-    } catch (error) {
-        console.error('Error displaying tee boxes:', error);
-    }
-}
-
-// Handle tee button click
-function handleTeeButtonClick(teeId) {
-    const allTeeItems = document.querySelectorAll('.tee-item');
-    allTeeItems.forEach((teeItem) => {
-        if (teeItem.dataset.id !== teeId.toString()) {
-            teeItem.remove(); // Remove non-selected tee items
-        } else {
-            const button = teeItem.querySelector('button');
-            button.remove(); // Remove the button from the selected tee item
         }
     });
 }
@@ -123,5 +58,26 @@ selectCourseButton.addEventListener('click', async () => {
     await DisplayCourses(); // Call DisplayCourses when the "Select Course" button is clicked
 });
 
-// Assuming 'courseDetails' is a valid element in your HTML
-const courseDetails = document.getElementById('courseDetails');
+const playerButton = document.getElementById('playerButton');
+const playerInput = document.getElementById('playerInput');
+const tableBody = document.getElementById('tableBody');
+
+playerButton.addEventListener('click', () => {
+    if(document.querySelector('.course-item') === null) {
+        alert('Please select a course');
+    } else if (playerInput.value === '') {
+        alert('Please enter a player name');
+    } else {
+        const player = playerInput.value;
+        const newRow = document.createElement('tr')
+        const heading = document.createElement('th')
+        heading.textContent = player;
+        newRow.appendChild(heading);
+        for(let i = 0; i < 10; i++) {
+            const newCell = document.createElement('td');
+            newCell.classList.add('John' + i + 1);
+            newRow.appendChild(newCell);
+        }
+        tableBody.appendChild(newRow);
+    }
+})

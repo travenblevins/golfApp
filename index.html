@@ -11,14 +11,18 @@
 <body>
     <div class="button">
         <button id="course-button">Select a course</button>
-        <button id="teeButton">Select a tee</button>
     </div>
     <div id="course-select"></div>
-    <div id="courseDetails"></div>
+    <div class="button">
+        <input type="text" id="playerInput">
+        <button id="playerButton">Add Player</button>
+        <div class="score"></div>
+    </div>
 
 
     <div class="table-container">
-        <table class="table responsive-md">
+        <table class="table responsive-lg" id="table">
+            <div id="name"></div>
             <thead>
             <tr>
                 <th scope="col">Hole</th>
@@ -34,30 +38,45 @@
                 <th scope="col">Out</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="tableBody">
             <tr>
                 <th scope="row">Yardage</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">Par</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <th scope="row">Handicap</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
-            <tr>
-                <th scope="row">Luigi</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             </tbody>
         </table>
