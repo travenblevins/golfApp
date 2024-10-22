@@ -135,9 +135,12 @@ const playerInput = document.getElementById('playerInput');
 
 const container1 = document.getElementById('container1');
 const frontContainer1 = document.getElementById('frontContainer1');
-const backContainer1 = document.getElementById('backContainer1');
+const backcontainer1 = document.getElementById('backcontainer1');
 
 const container2 = document.getElementById('container2');
+const frontContainer2 = document.getElementById('frontContainer2');
+const backContainer2 = document.getElementById('backContainer2');
+
 const container3 = document.getElementById('container3');
 const container4 = document.getElementById('container4');
 
@@ -148,20 +151,20 @@ playerButton.addEventListener('click', () => {
     } else if (playerInput.value === '') {
         alert('Please enter a player name');
         playerInput.value = '';
-    } else {
+    } else if (container1.innerHTML === '') {
         // Clear container1
         container1.innerHTML = '';
 
         // Create front and back containers dynamically if they don't exist
-        const frontContainer1 = document.createElement('div');
-        frontContainer1.id = 'frontContainer1';
-        frontContainer1.style.display = 'block'; // Show the front side initially
-        container1.appendChild(frontContainer1);
+        const frontcontainer1 = document.createElement('div');
+        frontcontainer1.id = 'frontcontainer1';
+        frontcontainer1.style.display = 'block'; // Show the front side initially
+        container1.appendChild(frontcontainer1);
 
-        const backContainer1 = document.createElement('div');
-        backContainer1.id = 'backContainer1';
-        backContainer1.style.display = 'none'; // Hide the back side initially
-        container1.appendChild(backContainer1);
+        const backcontainer1 = document.createElement('div');
+        backcontainer1.id = 'backcontainer1';
+        backcontainer1.style.display = 'none'; // Hide the back side initially
+        container1.appendChild(backcontainer1);
 
         // Player name and flip button
         const playerName = playerInput.value;
@@ -170,17 +173,17 @@ playerButton.addEventListener('click', () => {
         container1.appendChild(flipButton); // Only append once to a shared container
 
         // Create scorecard tables
-        const firstTableFront = new GolfTable('frontContainer1', `${playerName}'s Scorecard`);
-        const firstTableBack = new GolfTable('backContainer1', `Back of ${playerName}'s Scorecard`);
+        const firstTableFront = new GolfTable('frontcontainer1', `${playerName}'s Scorecard`);
+        const firstTableBack = new GolfTable('backcontainer1', `Back of ${playerName}'s Scorecard`);
 
         // Flip logic
         flipButton.addEventListener('click', () => {
-            if (getComputedStyle(frontContainer1).display === 'block') {
-                frontContainer1.style.display = 'none';
-                backContainer1.style.display = 'block';
+            if (getComputedStyle(frontcontainer1).display === 'block') {
+                frontcontainer1.style.display = 'none';
+                backcontainer1.style.display = 'block';
             } else {
-                frontContainer1.style.display = 'block';
-                backContainer1.style.display = 'none';
+                frontcontainer1.style.display = 'block';
+                backcontainer1.style.display = 'none';
             }
         });
         playerInput.value = '';
@@ -194,11 +197,22 @@ playerButton.addEventListener('click', () => {
         score.appendChild(addScoreButton);
         container1.appendChild(score);
 
+        const backTable = document.querySelector('#backcontainer1 .table-container table #tableBody');
+        backTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `back-${cell.id}`;
+                }
+            });
+        });
+
+
+
         let sum = 0;
         addScoreButton.addEventListener('click', () => {
             if (scoreInput.value === '') {
                 alert('Please enter a score');
-            } else if (frontContainer1.style.display === 'block') {
+            } else if (frontcontainer1.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
                     const strokes = document.getElementById(`strokes-${i + 1}`);
                     const yardage = document.getElementById(`yardage-${i + 1}`);
@@ -225,12 +239,12 @@ playerButton.addEventListener('click', () => {
                     }
                 }
             }
-            else if (backContainer1.style.display === 'block') {
+            else if (backcontainer1.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`strokes-${i + 1}`);
-                    const yardage = document.getElementById(`yardage-${i + 1}`);
-                    const par = document.getElementById(`par-${i + 1}`);
-                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
+                    const par = document.getElementById(`back-par-${i + 1}`);
+                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -240,20 +254,361 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('strokes-10');
+                        const strokesTotal = document.getElementById('back-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('yardage-10');
+                        const yardageOut = document.getElementById('back-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('par-10');
+                        const parOut = document.getElementById('back-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('handicap-10');
+                        const handicapOut = document.getElementById('back-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
                 }
             }
         });
-    }
-});
-
-
+    } else if (container2.innerHTML === '') {
+        // Clear container2
+        container2.innerHTML = '';
+    
+        // Create front and back containers dynamically if they don't exist
+        const frontcontainer2 = document.createElement('div');
+        frontcontainer2.id = 'frontcontainer2';
+        frontcontainer2.style.display = 'block'; // Show the front side initially
+        container2.appendChild(frontcontainer2);
+    
+        const backcontainer2 = document.createElement('div');
+        backcontainer2.id = 'backcontainer2';
+        backcontainer2.style.display = 'none'; // Hide the back side initially
+        container2.appendChild(backcontainer2);
+    
+        // Player name and flip button
+        const playerName = playerInput.value;
+        const flipButton = document.createElement('button');
+        flipButton.textContent = 'Flip Scorecard';
+        container2.appendChild(flipButton); // Only append once to a shared container
+    
+        // Create scorecard tables
+        const firstTableFront = new GolfTable('frontcontainer2', `${playerName}'s Scorecard`);
+        const firstTableBack = new GolfTable('backcontainer2', `Back of ${playerName}'s Scorecard`);
+    
+        // Flip logic
+        flipButton.addEventListener('click', () => {
+            if (getComputedStyle(frontcontainer2).display === 'block') {
+                frontcontainer2.style.display = 'none';
+                backcontainer2.style.display = 'block';
+            } else {
+                frontcontainer2.style.display = 'block';
+                backcontainer2.style.display = 'none';
+            }
+        });
+        playerInput.value = '';
+        const score = document.createElement('div');
+        const scoreInput = document.createElement('input');
+        const addScoreButton = document.createElement('button');
+    
+        scoreInput.placeholder = 'Enter score';
+        addScoreButton.textContent = 'Add score';
+        score.appendChild(scoreInput);
+        score.appendChild(addScoreButton);
+        container2.appendChild(score);
+    
+        const backTable = document.querySelector('#backcontainer2 .table-container table #tableBody');
+        backTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `back-${cell.id}`;
+                }
+            });
+        });
+    
+        let sum = 0;
+        addScoreButton.addEventListener('click', () => {
+            if (scoreInput.value === '') {
+                alert('Please enter a score');
+            } else if (frontcontainer2.style.display === 'block') {
+                for (let i = 0; i < 9; i++) {
+                    const strokes = document.getElementById(`strokes-${i + 1}`);
+                    const yardage = document.getElementById(`yardage-${i + 1}`);
+                    const par = document.getElementById(`par-${i + 1}`);
+                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    if (strokes.textContent === '') {
+                        strokes.textContent = scoreInput.value;
+                        sum += parseInt(strokes.textContent);
+                        yardage.textContent = '400';
+                        par.textContent = '4';
+                        handicap.textContent = '1';
+                        break;
+                    }
+                    if (i === 8) {
+                        const strokesTotal = document.getElementById('strokes-10');
+                        strokesTotal.textContent = sum
+                        const yardageOut = document.getElementById('yardage-10');
+                        yardageOut.textContent = '3600';
+                        const parOut = document.getElementById('par-10');
+                        parOut.textContent = '4';
+                        const handicapOut = document.getElementById('handicap-10');
+                        handicapOut.textContent = '1';
+                        scoreInput.value = '';
+                    }
+                }
+            }
+            else if (backcontainer2.style.display === 'block') {
+                for (let i = 0; i < 9; i++) {
+                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
+                    const par = document.getElementById(`back-par-${i + 1}`);
+                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
+                    if (strokes.textContent === '') {
+                        strokes.textContent = scoreInput.value;
+                        sum += parseInt(strokes.textContent);
+                        yardage.textContent = '400';
+                        par.textContent = '4';
+                        handicap.textContent = '1';
+                        break;
+                    }
+                    if (i === 8) {
+                        const strokesTotal = document.getElementById('back-strokes-10');
+                        strokesTotal.textContent = sum
+                        const yardageOut = document.getElementById('back-yardage-10');
+                        yardageOut.textContent = '3600';
+                        const parOut = document.getElementById('back-par-10');
+                        parOut.textContent = '4';
+                        const handicapOut = document.getElementById('back-handicap-10');
+                        handicapOut.textContent = '1';
+                        scoreInput.value = '';
+                    }
+                }
+            }
+        });
+    } else if (container3.innerHTML === '') {
+        // Clear container3
+        container3.innerHTML = '';
+    
+        // Create front and back containers dynamically if they don't exist
+        const frontcontainer3 = document.createElement('div');
+        frontcontainer3.id = 'frontcontainer3';
+        frontcontainer3.style.display = 'block'; // Show the front side initially
+        container3.appendChild(frontcontainer3);
+    
+        const backcontainer3 = document.createElement('div');
+        backcontainer3.id = 'backcontainer3';
+        backcontainer3.style.display = 'none'; // Hide the back side initially
+        container3.appendChild(backcontainer3);
+    
+        // Player name and flip button
+        const playerName = playerInput.value;
+        const flipButton = document.createElement('button');
+        flipButton.textContent = 'Flip Scorecard';
+        container3.appendChild(flipButton); // Only append once to a shared container
+    
+        // Create scorecard tables
+        const firstTableFront = new GolfTable('frontcontainer3', `${playerName}'s Scorecard`);
+        const firstTableBack = new GolfTable('backcontainer3', `Back of ${playerName}'s Scorecard`);
+    
+        // Flip logic
+        flipButton.addEventListener('click', () => {
+            if (getComputedStyle(frontcontainer3).display === 'block') {
+                frontcontainer3.style.display = 'none';
+                backcontainer3.style.display = 'block';
+            } else {
+                frontcontainer3.style.display = 'block';
+                backcontainer3.style.display = 'none';
+            }
+        });
+        playerInput.value = '';
+        const score = document.createElement('div');
+        const scoreInput = document.createElement('input');
+        const addScoreButton = document.createElement('button');
+    
+        scoreInput.placeholder = 'Enter score';
+        addScoreButton.textContent = 'Add score';
+        score.appendChild(scoreInput);
+        score.appendChild(addScoreButton);
+        container3.appendChild(score);
+    
+        const backTable = document.querySelector('#backcontainer3 .table-container table #tableBody');
+        backTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `back-${cell.id}`;
+                }
+            });
+        });
+    
+        let sum = 0;
+        addScoreButton.addEventListener('click', () => {
+            if (scoreInput.value === '') {
+                alert('Please enter a score');
+            } else if (frontcontainer3.style.display === 'block') {
+                for (let i = 0; i < 9; i++) {
+                    const strokes = document.getElementById(`strokes-${i + 1}`);
+                    const yardage = document.getElementById(`yardage-${i + 1}`);
+                    const par = document.getElementById(`par-${i + 1}`);
+                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    if (strokes.textContent === '') {
+                        strokes.textContent = scoreInput.value;
+                        sum += parseInt(strokes.textContent);
+                        yardage.textContent = '400';
+                        par.textContent = '4';
+                        handicap.textContent = '1';
+                        break;
+                    }
+                    if (i === 8) {
+                        const strokesTotal = document.getElementById('strokes-10');
+                        strokesTotal.textContent = sum
+                        const yardageOut = document.getElementById('yardage-10');
+                        yardageOut.textContent = '3600';
+                        const parOut = document.getElementById('par-10');
+                        parOut.textContent = '4';
+                        const handicapOut = document.getElementById('handicap-10');
+                        handicapOut.textContent = '1';
+                        scoreInput.value = '';
+                    }
+                }
+            }
+            else if (backcontainer3.style.display === 'block') {
+                for (let i = 0; i < 9; i++) {
+                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
+                    const par = document.getElementById(`back-par-${i + 1}`);
+                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
+                    if (strokes.textContent === '') {
+                        strokes.textContent = scoreInput.value;
+                        sum += parseInt(strokes.textContent);
+                        yardage.textContent = '400';
+                        par.textContent = '4';
+                        handicap.textContent = '1';
+                        break;
+                    }
+                    if (i === 8) {
+                        const strokesTotal = document.getElementById('back-strokes-10');
+                        strokesTotal.textContent = sum
+                        const yardageOut = document.getElementById('back-yardage-10');
+                        yardageOut.textContent = '3600';
+                        const parOut = document.getElementById('back-par-10');
+                        parOut.textContent = '4';
+                        const handicapOut = document.getElementById('back-handicap-10');
+                        handicapOut.textContent = '1';
+                        scoreInput.value = '';
+                    }
+                }
+            }
+        });
+    } else if (container4.innerHTML === '') {
+        // Clear container4
+        container4.innerHTML = '';
+    
+        // Create front and back containers dynamically if they don't exist
+        const frontcontainer4 = document.createElement('div');
+        frontcontainer4.id = 'frontcontainer4';
+        frontcontainer4.style.display = 'block'; // Show the front side initially
+        container4.appendChild(frontcontainer4);
+    
+        const backcontainer4 = document.createElement('div');
+        backcontainer4.id = 'backcontainer4';
+        backcontainer4.style.display = 'none'; // Hide the back side initially
+        container4.appendChild(backcontainer4);
+    
+        // Player name and flip button
+        const playerName = playerInput.value;
+        const flipButton = document.createElement('button');
+        flipButton.textContent = 'Flip Scorecard';
+        container4.appendChild(flipButton); // Only append once to a shared container
+    
+        // Create scorecard tables
+        const firstTableFront = new GolfTable('frontcontainer4', `${playerName}'s Scorecard`);
+        const firstTableBack = new GolfTable('backcontainer4', `Back of ${playerName}'s Scorecard`);
+    
+        // Flip logic
+        flipButton.addEventListener('click', () => {
+            if (getComputedStyle(frontcontainer4).display === 'block') {
+                frontcontainer4.style.display = 'none';
+                backcontainer4.style.display = 'block';
+            } else {
+                frontcontainer4.style.display = 'block';
+                backcontainer4.style.display = 'none';
+            }
+        });
+        playerInput.value = '';
+        const score = document.createElement('div');
+        const scoreInput = document.createElement('input');
+        const addScoreButton = document.createElement('button');
+    
+        scoreInput.placeholder = 'Enter score';
+        addScoreButton.textContent = 'Add score';
+        score.appendChild(scoreInput);
+        score.appendChild(addScoreButton);
+        container4.appendChild(score);
+    
+        const backTable = document.querySelector('#backcontainer4 .table-container table #tableBody');
+        backTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `back-${cell.id}`;
+                }
+            });
+        });
+    
+        let sum = 0;
+        addScoreButton.addEventListener('click', () => {
+            if (scoreInput.value === '') {
+                alert('Please enter a score');
+            } else if (frontcontainer4.style.display === 'block') {
+                for (let i = 0; i < 9; i++) {
+                    const strokes = document.getElementById(`strokes-${i + 1}`);
+                    const yardage = document.getElementById(`yardage-${i + 1}`);
+                    const par = document.getElementById(`par-${i + 1}`);
+                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    if (strokes.textContent === '') {
+                        strokes.textContent = scoreInput.value;
+                        sum += parseInt(strokes.textContent);
+                        yardage.textContent = '400';
+                        par.textContent = '4';
+                        handicap.textContent = '1';
+                        break;
+                    }
+                    if (i === 8) {
+                        const strokesTotal = document.getElementById('strokes-10');
+                        strokesTotal.textContent = sum
+                        const yardageOut = document.getElementById('yardage-10');
+                        yardageOut.textContent = '3600';
+                        const parOut = document.getElementById('par-10');
+                        parOut.textContent = '4';
+                        const handicapOut = document.getElementById('handicap-10');
+                        handicapOut.textContent = '1';
+                        scoreInput.value = '';
+                    }
+                }
+            }
+            else if (backcontainer4.style.display === 'block') {
+                for (let i = 0; i < 9; i++) {
+                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
+                    const par = document.getElementById(`back-par-${i + 1}`);
+                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
+                    if (strokes.textContent === '') {
+                        strokes.textContent = scoreInput.value;
+                        sum += parseInt(strokes.textContent);
+                        yardage.textContent = '400';
+                        par.textContent = '4';
+                        handicap.textContent = '1';
+                        break;
+                    }
+                    if (i === 8) {
+                        const strokesTotal = document.getElementById('back-strokes-10');
+                        strokesTotal.textContent = sum
+                        const yardageOut = document.getElementById('back-yardage-10');
+                        yardageOut.textContent = '3600';
+                        const parOut = document.getElementById('back-par-10');
+                        parOut.textContent = '4';
+                        const handicapOut = document.getElementById('back-handicap-10');
+                        handicapOut.textContent = '1';
+                        scoreInput.value = '';
+                    }
+                }
+            }
+        });
+    }    
+    
+})
