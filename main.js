@@ -312,12 +312,21 @@ playerButton.addEventListener('click', () => {
         score.appendChild(scoreInput);
         score.appendChild(addScoreButton);
         container2.appendChild(score);
-    
+        
+        const frontTable = document.querySelector('#frontcontainer2 .table-container table #tableBody');
+        frontTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `front2-${cell.id}`;
+                }
+            });
+        });
+
         const backTable = document.querySelector('#backcontainer2 .table-container table #tableBody');
         backTable.querySelectorAll('tr').forEach((row) => {
             row.querySelectorAll('td').forEach((cell) => {
                 if (cell.id) {
-                    cell.id = `back-${cell.id}`;
+                    cell.id = `back2-${cell.id}`;
                 }
             });
         });
@@ -328,10 +337,10 @@ playerButton.addEventListener('click', () => {
                 alert('Please enter a score');
             } else if (frontcontainer2.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`strokes-${i + 1}`);
-                    const yardage = document.getElementById(`yardage-${i + 1}`);
-                    const par = document.getElementById(`par-${i + 1}`);
-                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    const strokes = document.getElementById(`front2-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`front2-yardage-${i + 1}`);
+                    const par = document.getElementById(`front2-par-${i + 1}`);
+                    const handicap = document.getElementById(`front2-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -341,13 +350,13 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('strokes-10');
+                        const strokesTotal = document.getElementById('front2-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('yardage-10');
+                        const yardageOut = document.getElementById('front2-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('par-10');
+                        const parOut = document.getElementById('front2-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('handicap-10');
+                        const handicapOut = document.getElementById('front-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
@@ -355,10 +364,10 @@ playerButton.addEventListener('click', () => {
             }
             else if (backcontainer2.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
-                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
-                    const par = document.getElementById(`back-par-${i + 1}`);
-                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
+                    const strokes = document.getElementById(`back2-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back2-yardage-${i + 1}`);
+                    const par = document.getElementById(`back2-par-${i + 1}`);
+                    const handicap = document.getElementById(`back2-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -368,13 +377,13 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('back-strokes-10');
+                        const strokesTotal = document.getElementById('back2-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('back-yardage-10');
+                        const yardageOut = document.getElementById('back2-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('back-par-10');
+                        const parOut = document.getElementById('back2-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('back-handicap-10');
+                        const handicapOut = document.getElementById('back2-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
@@ -427,11 +436,19 @@ playerButton.addEventListener('click', () => {
         score.appendChild(addScoreButton);
         container3.appendChild(score);
     
+        const frontTable = document.querySelector('#frontcontainer3 .table-container table #tableBody');
+        frontTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `front3-${cell.id}`;
+                }
+            });
+        });
         const backTable = document.querySelector('#backcontainer3 .table-container table #tableBody');
         backTable.querySelectorAll('tr').forEach((row) => {
             row.querySelectorAll('td').forEach((cell) => {
                 if (cell.id) {
-                    cell.id = `back-${cell.id}`;
+                    cell.id = `back3-${cell.id}`;
                 }
             });
         });
@@ -442,10 +459,10 @@ playerButton.addEventListener('click', () => {
                 alert('Please enter a score');
             } else if (frontcontainer3.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`strokes-${i + 1}`);
-                    const yardage = document.getElementById(`yardage-${i + 1}`);
-                    const par = document.getElementById(`par-${i + 1}`);
-                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    const strokes = document.getElementById(`front3-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`front3-yardage-${i + 1}`);
+                    const par = document.getElementById(`front3-par-${i + 1}`);
+                    const handicap = document.getElementById(`front3-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -455,13 +472,13 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('strokes-10');
+                        const strokesTotal = document.getElementById('front3-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('yardage-10');
+                        const yardageOut = document.getElementById('front3-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('par-10');
+                        const parOut = document.getElementById('front3-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('handicap-10');
+                        const handicapOut = document.getElementById('front3-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
@@ -469,10 +486,10 @@ playerButton.addEventListener('click', () => {
             }
             else if (backcontainer3.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
-                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
-                    const par = document.getElementById(`back-par-${i + 1}`);
-                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
+                    const strokes = document.getElementById(`back3-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back3-yardage-${i + 1}`);
+                    const par = document.getElementById(`back3-par-${i + 1}`);
+                    const handicap = document.getElementById(`back3-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -482,13 +499,13 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('back-strokes-10');
+                        const strokesTotal = document.getElementById('back3-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('back-yardage-10');
+                        const yardageOut = document.getElementById('back3-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('back-par-10');
+                        const parOut = document.getElementById('back3-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('back-handicap-10');
+                        const handicapOut = document.getElementById('back3-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
@@ -541,11 +558,19 @@ playerButton.addEventListener('click', () => {
         score.appendChild(addScoreButton);
         container4.appendChild(score);
     
+        const frontTable = document.querySelector('#frontcontainer4 .table-container table #tableBody');
+        frontTable.querySelectorAll('tr').forEach((row) => {
+            row.querySelectorAll('td').forEach((cell) => {
+                if (cell.id) {
+                    cell.id = `front4-${cell.id}`;
+                }
+            });
+        });
         const backTable = document.querySelector('#backcontainer4 .table-container table #tableBody');
         backTable.querySelectorAll('tr').forEach((row) => {
             row.querySelectorAll('td').forEach((cell) => {
                 if (cell.id) {
-                    cell.id = `back-${cell.id}`;
+                    cell.id = `back4-${cell.id}`;
                 }
             });
         });
@@ -556,10 +581,10 @@ playerButton.addEventListener('click', () => {
                 alert('Please enter a score');
             } else if (frontcontainer4.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`strokes-${i + 1}`);
-                    const yardage = document.getElementById(`yardage-${i + 1}`);
-                    const par = document.getElementById(`par-${i + 1}`);
-                    const handicap = document.getElementById(`handicap-${i + 1}`);
+                    const strokes = document.getElementById(`front4-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`front4-yardage-${i + 1}`);
+                    const par = document.getElementById(`front4-par-${i + 1}`);
+                    const handicap = document.getElementById(`front4-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -569,13 +594,13 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('strokes-10');
+                        const strokesTotal = document.getElementById('front4-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('yardage-10');
+                        const yardageOut = document.getElementById('front4-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('par-10');
+                        const parOut = document.getElementById('front4-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('handicap-10');
+                        const handicapOut = document.getElementById('front4-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
@@ -583,10 +608,10 @@ playerButton.addEventListener('click', () => {
             }
             else if (backcontainer4.style.display === 'block') {
                 for (let i = 0; i < 9; i++) {
-                    const strokes = document.getElementById(`back-strokes-${i + 1}`);
-                    const yardage = document.getElementById(`back-yardage-${i + 1}`);
-                    const par = document.getElementById(`back-par-${i + 1}`);
-                    const handicap = document.getElementById(`back-handicap-${i + 1}`);
+                    const strokes = document.getElementById(`back4-strokes-${i + 1}`);
+                    const yardage = document.getElementById(`back4-yardage-${i + 1}`);
+                    const par = document.getElementById(`back4-par-${i + 1}`);
+                    const handicap = document.getElementById(`back4-handicap-${i + 1}`);
                     if (strokes.textContent === '') {
                         strokes.textContent = scoreInput.value;
                         sum += parseInt(strokes.textContent);
@@ -596,17 +621,19 @@ playerButton.addEventListener('click', () => {
                         break;
                     }
                     if (i === 8) {
-                        const strokesTotal = document.getElementById('back-strokes-10');
+                        const strokesTotal = document.getElementById('back4-strokes-10');
                         strokesTotal.textContent = sum
-                        const yardageOut = document.getElementById('back-yardage-10');
+                        const yardageOut = document.getElementById('back4-yardage-10');
                         yardageOut.textContent = '3600';
-                        const parOut = document.getElementById('back-par-10');
+                        const parOut = document.getElementById('back4-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('back-handicap-10');
+                        const handicapOut = document.getElementById('back4-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
                     }
                 }
+            } else if (container4.innerHTML !== '') {
+                alert('Four players is the maximum quantity');
             }
         });
     }    
