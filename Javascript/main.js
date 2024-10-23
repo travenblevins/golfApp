@@ -1,74 +1,4 @@
-class GolfTable {
-    constructor(containerId, tableTitle) {
-        this.container = document.getElementById(containerId);
-        this.tableTitle = tableTitle;
-        this.createTable();
-    }
-
-    createTable() {
-        // Create table container div with class 'table-container'
-        const tableContainer = document.createElement('div');
-        tableContainer.className = 'table-container';
-
-        // Create and append the table header (title)
-        const header = document.createElement('h2');
-        header.className = 'name';
-        header.textContent = this.tableTitle;
-        tableContainer.appendChild(header);
-
-        // Create table element
-        const table = document.createElement('table');
-        table.className = 'table responsive-lg';
-        table.id = 'table';
-
-        // Create thead element
-        const thead = document.createElement('thead');
-        const headerRow = document.createElement('tr');
-
-        // Define column headers
-        const headers = ['Hole', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Out'];
-        headers.forEach(headerText => {
-            const th = document.createElement('th');
-            th.scope = 'col';
-            th.textContent = headerText;
-            headerRow.appendChild(th);
-        });
-        thead.appendChild(headerRow);
-        table.appendChild(thead);
-
-        // Create tbody element
-        const tbody = document.createElement('tbody');
-        tbody.id = 'tableBody';
-
-        // Define row labels
-        const rows = ['Strokes', 'Yardage', 'Par', 'Handicap'];
-
-        // Create table rows and cells
-        rows.forEach(rowLabel => {
-            const row = document.createElement('tr');
-            const th = document.createElement('th');
-            th.scope = 'row';
-            th.textContent = rowLabel;
-            row.appendChild(th);
-
-            // Create 10 empty cells for each row
-            for (let i = 0; i < 10; i++) {
-                const td = document.createElement('td');
-                td.id = `${rowLabel.toLowerCase()}-${i + 1}`;
-                row.appendChild(td);
-            }
-            tbody.appendChild(row);
-        });
-
-        table.appendChild(tbody);
-
-        // Append the created table to the table container
-        tableContainer.appendChild(table);
-
-        // Append the table container to the main container
-        this.container.appendChild(tableContainer);
-    }
-}
+import GolfTable from '/Javascript/class.js';
 
 async function getAvailableCourses() {
     const url = 'https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/courses.json';
@@ -119,7 +49,6 @@ function handleButtonClick(courseId) {
         } else {
             const button = courseItem.querySelector('button');
             button.remove(); // Remove button from selected course item
-            console.log(courseItem.dataset.id); // Log the selected course ID
         }
     });
 }
@@ -209,6 +138,13 @@ playerButton.addEventListener('click', () => {
 
 
         let sum = 0;
+        let frontTotal = 0;
+        let backTotal = 0;
+
+        let total = document.createElement('div');
+        total.id = 'total';
+        total.textContent = `Stroke Total: 0`;
+        container1.appendChild(total);
         addScoreButton.addEventListener('click', () => {
             if (scoreInput.value === '') {
                 alert('Please enter a score');
@@ -236,6 +172,8 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        frontTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
@@ -263,10 +201,13 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('back-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        backTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
         });
+        
     } else if (container2.innerHTML === '') {
         // Clear container2
         container2.innerHTML = '';
@@ -332,6 +273,14 @@ playerButton.addEventListener('click', () => {
         });
     
         let sum = 0;
+        let frontTotal = 0;
+        let backTotal = 0;
+
+        let total = document.createElement('div');
+        total.id = 'total';
+        total.textContent = `Stroke Total: 0`;
+        container2.appendChild(total);
+
         addScoreButton.addEventListener('click', () => {
             if (scoreInput.value === '') {
                 alert('Please enter a score');
@@ -356,9 +305,11 @@ playerButton.addEventListener('click', () => {
                         yardageOut.textContent = '3600';
                         const parOut = document.getElementById('front2-par-10');
                         parOut.textContent = '4';
-                        const handicapOut = document.getElementById('front-handicap-10');
+                        const handicapOut = document.getElementById('front2-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        frontTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
@@ -386,6 +337,8 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('back2-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        backTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
@@ -454,6 +407,14 @@ playerButton.addEventListener('click', () => {
         });
     
         let sum = 0;
+        let frontTotal = 0;
+        let backTotal = 0;
+
+        let total = document.createElement('div');
+        total.id = 'total';
+        total.textContent = `Stroke Total: 0`;
+        container3.appendChild(total);
+
         addScoreButton.addEventListener('click', () => {
             if (scoreInput.value === '') {
                 alert('Please enter a score');
@@ -481,6 +442,8 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('front3-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        frontTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
@@ -508,6 +471,8 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('back3-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        backTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
@@ -576,6 +541,14 @@ playerButton.addEventListener('click', () => {
         });
     
         let sum = 0;
+        let frontTotal = 0;
+        let backTotal = 0;
+
+        let total = document.createElement('div');
+        total.id = 'total';
+        total.textContent = `Stroke Total: 0`;
+        container4.appendChild(total);
+
         addScoreButton.addEventListener('click', () => {
             if (scoreInput.value === '') {
                 alert('Please enter a score');
@@ -603,6 +576,8 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('front4-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        frontTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
             }
@@ -630,12 +605,15 @@ playerButton.addEventListener('click', () => {
                         const handicapOut = document.getElementById('back4-handicap-10');
                         handicapOut.textContent = '1';
                         scoreInput.value = '';
+                        backTotal = sum;
+                        total.textContent = `Stroke Total: ${frontTotal + backTotal}`;
                     }
                 }
-            } else if (container4.innerHTML !== '') {
-                alert('Four players is the maximum quantity');
-            }
+            } 
         });
+    }
+    else if (container4.innerHTML !== '') {
+        alert('Four players is the maximum quantity');
+        playerInput.value = '';
     }    
-    
 })
