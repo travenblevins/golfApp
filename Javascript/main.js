@@ -41,17 +41,45 @@ async function DisplayCourses() {
     }
 }
 
-function handleButtonClick(courseId) {
+
+async function getCourseDetails(courseId) {
+    const url = `https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/course${courseId}.json`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+}
+
+const details = document.getElementById('details');
+
+async function handleButtonClick(courseId) {
     const courseSelect = document.querySelectorAll('.course-item');
-    courseSelect.forEach((courseItem) => {
+    
+    // Clear any previous details
+    details.innerHTML = '';
+
+    for (const courseItem of courseSelect) {
         if (courseItem.dataset.id !== courseId.toString()) {
             courseItem.remove(); // Remove non-selected course items
         } else {
             const button = courseItem.querySelector('button');
             button.remove(); // Remove button from selected course item
+            
+            // Fetch course details
+            try {
+                const courseDetails = await getCourseDetails(courseId);
+                console.log(courseDetails); // Log the course details
+                
+                // Display course address
+                const courseAddress = courseDetails.addr1; // Adjust based on your JSON structure
+                details.innerHTML = `<p>Address: ${courseAddress}</p>`;
+            } catch (error) {
+                console.error('Error fetching course details:', error);
+                details.innerHTML = '<summary>Course Details</summary><p>Error loading details.</p>';
+            }
         }
-    });
+    }
 }
+
 
 // Set up the event listener for the main "Select Course" button
 const selectCourseButton = document.getElementById('course-button'); // Ensure this is the correct ID for the main button
