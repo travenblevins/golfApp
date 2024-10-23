@@ -71,7 +71,10 @@ async function handleButtonClick(courseId) {
                 
                 // Display course address
                 const courseAddress = courseDetails.addr1; // Adjust based on your JSON structure
-                details.innerHTML = `<p>Address: ${courseAddress}</p>`;
+                const holeCount = courseDetails.holeCount;
+                details.innerHTML = `<div>Address: ${courseAddress}</div>
+                <br>
+                <div>Hole Count: ${holeCount}</div>`;
             } catch (error) {
                 console.error('Error fetching course details:', error);
                 details.innerHTML = '<summary>Course Details</summary><p>Error loading details.</p>';
