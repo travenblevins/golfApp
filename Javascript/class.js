@@ -2,19 +2,19 @@ export default class GolfTable {
     constructor(containerId, tableTitle) {
         this.container = document.getElementById(containerId);
         this.tableTitle = tableTitle;
-        this.createTable();
+        this.createTable(); // This initializes tableContainer
     }
 
     createTable() {
         // Create table container div with class 'table-container'
-        const tableContainer = document.createElement('div');
-        tableContainer.className = 'table-container';
+        this.tableContainer = document.createElement('div'); // Store tableContainer as a class property
+        this.tableContainer.className = 'table-container';
 
         // Create and append the table header (title)
         const header = document.createElement('h2');
         header.className = 'name';
         header.textContent = this.tableTitle;
-        tableContainer.appendChild(header);
+        this.tableContainer.appendChild(header);
 
         // Create table element
         const table = document.createElement('table');
@@ -36,12 +36,12 @@ export default class GolfTable {
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Create tbody element
-        const tbody = document.createElement('tbody');
-        tbody.id = 'tableBody';
+        // Create tbody element and assign it to this.tbody
+        this.tbody = document.createElement('tbody');
+        this.tbody.id = 'tableBody';
 
         // Define row labels
-        const rows = ['Strokes', 'Yardage', 'Par', 'Handicap'];
+        const rows = ['Handicap', 'Yardage', 'Par', 'Strokes'];
 
         // Create table rows and cells
         rows.forEach(rowLabel => {
@@ -57,15 +57,129 @@ export default class GolfTable {
                 td.id = `${rowLabel.toLowerCase()}-${i + 1}`;
                 row.appendChild(td);
             }
-            tbody.appendChild(row);
+
+            if (rowLabel === 'Handicap') {
+                for (let i = 0; i < 10; i++) {
+                    row.children[i + 1].textContent = '36.4';
+                }
+            }
+
+            if (rowLabel === 'Yardage') {
+                for (let i = 0; i < 10; i++) {
+                    row.children[i + 1].textContent = '200';
+                }
+            }
+
+            if (rowLabel === 'Par') {
+                for (let i = 0; i < 10; i++) {
+                    row.children[i + 1].textContent = '5';
+                }
+            }
+            if (rowLabel === 'Strokes') {
+                for (let i = 0; i < 10; i++) {
+                    row.children[i + 1].textContent = '|';
+                }
+            }
+
+            this.tbody.appendChild(row); // Append to this.tbody
         });
 
-        table.appendChild(tbody);
+        table.appendChild(this.tbody); // Append the tbody to the table
 
         // Append the created table to the table container
-        tableContainer.appendChild(table);
+        this.tableContainer.appendChild(table);
+
+        // Create the button section once
+        this.createButton();
 
         // Append the table container to the main container
-        this.container.appendChild(tableContainer);
+        this.container.appendChild(this.tableContainer);
+    }
+
+    createButton() {
+        const scoreSection = document.createElement('div');
+        scoreSection.className = 'scoreSection';
+
+        const scoreInput = document.createElement('input');
+        scoreInput.type = 'text';
+        scoreInput.id = 'scoreInput';
+        scoreSection.appendChild(scoreInput);
+
+        const addScore = document.createElement('button');
+        addScore.textContent = 'Add Score';
+        addScore.id = 'addScore';
+        addScore.addEventListener('click', () => {
+            this.addScore();
+        });
+        scoreSection.appendChild(addScore);
+
+        this.tableContainer.appendChild(scoreSection); // Append to the table container
+    }
+
+    addPlayer(player) {
+        if (!player || !player.name) {
+            console.error('Player name is undefined or missing');
+            return;
+        }
+    
+        // Count existing players to determine the next ID
+        const existingPlayersCount = Array.from(this.tbody.children).filter(row => {
+            const th = row.children[0];
+            return th && th.id && th.id.startsWith('player'); // Ensure th has id and starts with 'player'
+        }).length;
+    
+        const playerId = `player${existingPlayersCount + 1}`; // Assign ID based on the count
+    
+        const playerRow = document.createElement('tr');
+        const th = document.createElement('th');
+        th.scope = 'row';
+        th.textContent = player.name;
+        th.id = playerId; // Assign the generated ID to the th element
+        playerRow.appendChild(th);
+    
+        // Create 10 cells for each player
+        for (let i = 0; i < 10; i++) {
+            const td = document.createElement('td');
+            td.id = `${player.name.toLowerCase()}-${i + 1}`; // Only access name if it's defined
+            playerRow.appendChild(td);
+        }
+    
+        this.tbody.appendChild(playerRow); // Append row to this.tbody
+    }
+    
+
+    addScore() {
+        const scoreInput = document.getElementById('scoreInput');
+        const score = scoreInput.value.trim();
+    
+        if (score === '') {
+            alert('Please enter a score');
+            scoreInput.value = '';
+            return;
+        }
+    
+        // Count existing players to determine the current player row
+        const existingPlayersCount = Array.from(this.tbody.children).filter(row => row.children[0].id.startsWith('player')).length;
+        console.log((existingPlayersCount));
+    
+        // Get the player row based on the count
+        const playerRowId = `player${existingPlayersCount}`; // This gets the ID of the last player
+        const playerRow = Array.from(this.tbody.children).find(row => row.children[0].id === playerRowId);
+    
+        // Check if playerRow was found
+        if (!playerRow) {
+            console.error('Player row not found');
+            return;
+        }
+    
+        // Add the score to the first empty cell in the player's row
+        for (let i = 1; i < playerRow.children.length; i++) { // Start from 1 to skip the <th>
+            const cell = playerRow.children[i];
+            if (cell.textContent === '') {
+                cell.textContent = score; // Assign the score to the empty cell
+                break; // Exit the loop after assigning the score
+            }
+        }
+
     }
 }
