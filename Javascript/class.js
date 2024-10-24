@@ -160,7 +160,7 @@ export default class GolfTable {
     
         // Count existing players to determine the current player row
         const existingPlayersCount = Array.from(this.tbody.children).filter(row => row.children[0].id.startsWith('player')).length;
-        console.log((existingPlayersCount));
+        console.log(existingPlayersCount);
     
         // Get the player row based on the count
         const playerRowId = `player${existingPlayersCount}`; // This gets the ID of the last player
@@ -172,14 +172,30 @@ export default class GolfTable {
             return;
         }
     
-        // Add the score to the first empty cell in the player's row
-        for (let i = 1; i < playerRow.children.length; i++) { // Start from 1 to skip the <th>
+        // Initialize sum if needed
+        let sum = 0;
+        
+        // Loop to find the first empty cell or set the score in the last cell
+        for (let i = 1; i < 11; i++) { // Start from 1 to skip the <th>
             const cell = playerRow.children[i];
-            if (cell.textContent === '') {
-                cell.textContent = score; // Assign the score to the empty cell
-                break; // Exit the loop after assigning the score
+    
+            if (i < 10) { // Check cells 1 to 9
+                if (cell.textContent === '') {
+                    cell.textContent = score; // Assign the score to the first empty cell
+                    break; // Exit the loop after assigning the score
+                }
+            } else if (i === 10) { // The 10th cell
+                // Calculate sum of scores in cells 1 to 9
+                for (let j = 1; j < 10; j++) {
+                    const currentCellValue = playerRow.children[j].textContent;
+                    if (currentCellValue) {
+                        sum += parseInt(currentCellValue);
+                    }
+                }
+                cell.textContent = sum; // Assign the cumulative score to the last cell
             }
         }
-
+    
     }
+    
 }
