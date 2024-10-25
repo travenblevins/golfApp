@@ -8,12 +8,6 @@ async function getAvailableCourses() {
         throw new Error('Failed to fetch courses: ' + response.status);
     }
 
-    // Check if the response is JSON
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-        throw new Error('Response is not valid JSON');
-    }
-
     const data = await response.json();
     return data;
 }
@@ -41,7 +35,6 @@ async function DisplayCourses() {
     }
 }
 
-
 async function getCourseDetails(courseId) {
     const url = `https://exquisite-pastelito-9d4dd1.netlify.app/golfapi/course${courseId}.json`;
     const response = await fetch(url);
@@ -53,9 +46,7 @@ const details = document.getElementById('details');
 
 async function handleButtonClick(courseId) {
     const courseSelect = document.querySelectorAll('.course-item');
-    
-    // Clear any previous details
-    details.innerHTML = '';
+    details.innerHTML = ''; // Clear previous details
 
     for (const courseItem of courseSelect) {
         if (courseItem.dataset.id !== courseId.toString()) {
@@ -67,8 +58,6 @@ async function handleButtonClick(courseId) {
             // Fetch course details
             try {
                 const courseDetails = await getCourseDetails(courseId);
-                
-                // Display course address
                 const courseAddress = courseDetails.addr1; // Adjust based on your JSON structure
                 const holeCount = courseDetails.holeCount;
                 details.innerHTML = `<div>Address: ${courseAddress}</div>
@@ -82,23 +71,23 @@ async function handleButtonClick(courseId) {
     }
 }
 
-
 // Set up the event listener for the main "Select Course" button
 const selectCourseButton = document.getElementById('course-button'); // Ensure this is the correct ID for the main button
 selectCourseButton.addEventListener('click', async () => {
     await DisplayCourses(); // Call DisplayCourses when the "Select Course" button is clicked
 });
 
+// Player handling
 const playerButton = document.getElementById('playerButton');
 const playerInput = document.getElementById('playerInput');
 
 const container1 = document.getElementById('container1');
-const container1Table = new GolfTable('container1', 'Scorecard');
-
-
+const container1Table = new GolfTable('container1', 'Scorecard', 'front');
+const container1BackTable = new GolfTable('container1', 'Back 9', 'back');
+container1BackTable.hide();
 
 playerButton.addEventListener('click', () => {
-    const playerName = playerInput.value.trim()
+    const playerName = playerInput.value.trim();
 
     if (document.querySelector('.course-item') === null) {
         alert('Please select a course');
@@ -107,10 +96,7 @@ playerButton.addEventListener('click', () => {
         alert('Please enter a player name');
         playerInput.value = '';
     } else {
-        container1Table.addPlayer({ name: playerName }); // Pass object with name
+        container1Table.addPlayer({ name: playerName }); // Add player to front table
         playerInput.value = '';
     }
 });
-
-
-
