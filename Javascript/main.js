@@ -128,9 +128,17 @@ playerButton.addEventListener('click', () => {
 
         // Player name and flip button
         const playerName = playerInput.value;
+        const flipHolder = document.createElement('div');
         const flipButton = document.createElement('button');
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete All';
+        deleteButton.addEventListener('click', () => {
+            container1.innerHTML = '';
+        })
+        flipHolder.appendChild(flipButton);
+        flipHolder.appendChild(deleteButton);
         flipButton.textContent = 'Flip Scorecard';
-        container1.appendChild(flipButton); // Only append once to a shared container
+        container1.appendChild(flipHolder); // Only append once to a shared container
 
         // Create scorecard tables
         const firstTableFront = new GolfTable('frontcontainer1', `${playerName}'s Scorecard`);
@@ -151,11 +159,14 @@ playerButton.addEventListener('click', () => {
         const scoreInput = document.createElement('input');
         const addScoreButton = document.createElement('button');
 
+
         scoreInput.placeholder = 'Enter score';
         addScoreButton.textContent = 'Add score';
         score.appendChild(scoreInput);
         score.appendChild(addScoreButton);
         container1.appendChild(score);
+
+        
 
         const backTable = document.querySelector('#backcontainer1 .table-container table #tableBody');
         backTable.querySelectorAll('tr').forEach((row) => {
@@ -258,6 +269,7 @@ playerButton.addEventListener('click', () => {
         const playerName = playerInput.value;
         const flipButton = document.createElement('button');
         flipButton.textContent = 'Flip Scorecard';
+        
         container2.appendChild(flipButton); // Only append once to a shared container
     
         // Create scorecard tables
