@@ -82,8 +82,8 @@ const playerButton = document.getElementById('playerButton');
 const playerInput = document.getElementById('playerInput');
 
 const container1 = document.getElementById('container1');
-const container1Table = new GolfTable('container1', 'Scorecard', 'front');
-const container1BackTable = new GolfTable('container1', 'Back 9', 'back');
+export const container1Table = new GolfTable('container1', 'Scorecard', 'front');
+export const container1BackTable = new GolfTable('container1', 'Back 9', 'back');
 container1BackTable.hide();
 
 playerButton.addEventListener('click', () => {

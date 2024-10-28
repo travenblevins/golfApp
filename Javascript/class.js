@@ -1,34 +1,30 @@
+import { container1Table, container1BackTable } from "/Javascript/main.js";
+
 export default class GolfTable {
-    constructor(containerId, tableTitle, id, backTableInstance = null) {
+    constructor(containerId, tableTitle, id) {
         this.container = document.getElementById(containerId);
         this.tableTitle = tableTitle;
         this.id = id;
-        this.backTableInstance = backTableInstance; // Store the back table instance
-        this.createTable(); // This initializes tableContainer
-        this.createButton(); // Create the button section here
+        this.createTable();
+        this.createButton();
     }
 
     createTable() {
-        // Create table container div with class 'table-container'
-        this.tableContainer = document.createElement('div'); // Store tableContainer as a class property
+        this.tableContainer = document.createElement('div');
         this.tableContainer.className = 'table-container';
         this.tableContainer.id = this.id;
 
-        // Create and append the table header (title)
         const header = document.createElement('h2');
         header.className = 'name';
         header.textContent = this.tableTitle;
         this.tableContainer.appendChild(header);
 
-        // Create table element
         const table = document.createElement('table');
         table.className = 'table responsive-lg';
 
-        // Create thead element
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
 
-        // Define column headers
         const headers = ['Hole', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Out', 'Total'];
         headers.forEach(headerText => {
             const th = document.createElement('th');
@@ -39,14 +35,10 @@ export default class GolfTable {
         thead.appendChild(headerRow);
         table.appendChild(thead);
 
-        // Create tbody element and assign it to this.tbody
         this.tbody = document.createElement('tbody');
         this.tbody.id = 'tableBody';
 
-        // Define row labels
         const rows = ['Handicap', 'Yardage', 'Par', 'Strokes'];
-
-        // Create table rows and cells
         rows.forEach(rowLabel => {
             const row = document.createElement('tr');
             const th = document.createElement('th');
@@ -54,7 +46,6 @@ export default class GolfTable {
             th.textContent = rowLabel;
             row.appendChild(th);
 
-            // Create 11 empty cells for each row
             for (let i = 0; i < 11; i++) {
                 const td = document.createElement('td');
                 td.id = `${rowLabel.toLowerCase()}-${i + 1}`;
@@ -84,15 +75,11 @@ export default class GolfTable {
                 }
             }
 
-            this.tbody.appendChild(row); // Append to this.tbody
+            this.tbody.appendChild(row);
         });
 
-        table.appendChild(this.tbody); // Append the tbody to the table
-
-        // Append the created table to the table container
+        table.appendChild(this.tbody);
         this.tableContainer.appendChild(table);
-
-        // Append the table container to the main container
         this.container.appendChild(this.tableContainer);
     }
 
@@ -109,7 +96,7 @@ export default class GolfTable {
         addScore.textContent = 'Add Score';
         addScore.id = 'addScore';
         addScore.addEventListener('click', () => {
-            this.addScore(); // No need to pass backTableInstance anymore
+            this.addScore();
         });
         scoreSection.appendChild(addScore);
 
@@ -121,7 +108,7 @@ export default class GolfTable {
         });
 
         scoreSection.appendChild(flipButton);
-        this.tableContainer.appendChild(scoreSection); // Append to the table container
+        this.tableContainer.appendChild(scoreSection);
     }
 
     addPlayer(player) {
@@ -138,18 +125,19 @@ export default class GolfTable {
         th.id = playerId;
         playerRow.appendChild(th);
 
-        // Create 11 cells for each player
         for (let i = 0; i < 11; i++) {
             const td = document.createElement('td');
             td.id = `${player.name.toLowerCase()}-${i + 1}`;
             playerRow.appendChild(td);
         }
 
-        this.tbody.appendChild(playerRow); // Append to the specified table's tbody
+        // Add the player to the front table
+        this.tbody.appendChild(playerRow);
 
-        // If backTableInstance exists, also add player to the back table
-        if (this.backTableInstance) {
-            this.backTableInstance.addPlayer({ name: player.name });
+        // Add the player to the back table
+        if (container1BackTable) {
+            const backPlayerRow = playerRow.cloneNode(true);
+            container1BackTable.tbody.appendChild(backPlayerRow);
         }
     }
 
@@ -163,63 +151,50 @@ export default class GolfTable {
             return;
         }
 
-        // Get the last player row from the front table
-        const playerRows = Array.from(this.tbody.children).filter(row => row.children[0].id.startsWith('player'));
-        const playerRow = playerRows[playerRows.length - 1]; // Get the last player row
+        const currentTable = this.tableTitle === 'Scorecard' ? container1Table : container1BackTable;
+        const oppositeTable = this.tableTitle === 'Scorecard' ? container1BackTable : container1Table;
 
-        if (!playerRow) {
-            console.error('Player row not found');
+        const playerRows = Array.from(currentTable?.tbody.children || []).filter(row => row.children[0].id.startsWith('player'));
+        if (playerRows.length === 0) {
+            console.error('No players have been added yet');
             return;
         }
 
-        const frontTableVisible = this.tableTitle === 'Scorecard';
-        const backPlayerRow = frontTableVisible && this.backTableInstance ? this.backTableInstance.tbody.children[playerRows.length - 1] : null;
-
-        let frontOutSum = 0;
-        let backOutSum = 0;
-
-        // Function to add score to a row
-        const addScoreToRow = (row) => {
-            for (let i = 1; i < 10; i++) { // Holes 1-9
-                const cell = row.children[i];
-                if (cell.textContent === '') {
-                    cell.textContent = score; // Add score to first empty cell
-                    break;
-                }
-            }
-        };
-
-        // Function to calculate sum for a row's cells (holes 1-9)
-        const calculateOutSum = (row) => {
+        const playerRow = playerRows[playerRows.length - 1];
+        const addScoreToRowAndCalculateOutSum = (row) => {
             let sum = 0;
             for (let i = 1; i < 10; i++) {
-                const cellValue = row.children[i].textContent;
-                if (cellValue) {
-                    sum += parseInt(cellValue);
+                const cell = row.children[i];
+                if (cell.textContent === '') {
+                    cell.textContent = score;
+                    break;
                 }
+                sum += parseInt(cell.textContent) || 0;
             }
             return sum;
         };
 
-        // Add score to both front and back rows
-        addScoreToRow(playerRow);
-        if (backPlayerRow) addScoreToRow(backPlayerRow);
+        const frontOutSum = addScoreToRowAndCalculateOutSum(playerRow);
 
-        // Calculate sums for the "Out" columns in front and back tables
-        frontOutSum = calculateOutSum(playerRow); // Front Out
-        backOutSum = backPlayerRow ? calculateOutSum(backPlayerRow) : 0; // Back Out
-
-        // Display front "Out" in the 10th cell of the front table
-        playerRow.children[10].textContent = frontOutSum;
-
-        // Display back "Out" in the 10th cell of the back table
-        if (backPlayerRow) {
-            backPlayerRow.children[10].textContent = backOutSum;
+        let backOutSum = 0;
+        if (oppositeTable) {
+            const oppositePlayerRow = Array.from(oppositeTable.tbody.children).find(row => row.id === playerRow.id);
+            if (oppositePlayerRow) {
+                backOutSum = addScoreToRowAndCalculateOutSum(oppositePlayerRow);
+            }
         }
 
-        // Display total sum (frontOutSum + backOutSum) in the last cell of the front table row
+        playerRow.children[10].textContent = frontOutSum;
         const totalSum = frontOutSum + backOutSum;
         playerRow.children[11].textContent = totalSum;
+
+        if (oppositeTable) {
+            const oppositePlayerRow = Array.from(oppositeTable.tbody.children).find(row => row.id === playerRow.id);
+            if (oppositePlayerRow) {
+                oppositePlayerRow.children[10].textContent = backOutSum;
+                oppositePlayerRow.children[11].textContent = totalSum;
+            }
+        }
     }
 
     hide() {
